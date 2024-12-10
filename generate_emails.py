@@ -1,6 +1,5 @@
 import random
 import string
-import itertools
 
 def generate_random_string(length):
     """Generate a random string with letters, digits, and symbols."""
@@ -15,24 +14,24 @@ def generate_email_permutations(first_name, last_name, domain, max_combinations=
     domain = domain.lower()
 
     patterns = [
-        "{first}",
-        "{last}",
-        "{first}.{last}",
-        "{first}{last}",
-        "{first[0]}{last}",
-        "{first}{last[0]}",
-        "{last}.{first}",
-        "{last}{first}",
+        "{first}.{last}",             
+        "{first}.{last}{num}",        
+        "{first[0]}{last}{num}",     
+        "{first}{last}{num}",        
+        "{last}.{first}{num}",       
+        "{first}_{last}{num}",        
+        "{first}.{last}.{random}",    
+        "{first[0]}_{last}",          
     ]
 
-    numbers = [str(random.randint(1, 9999)) for _ in range(5)]  
+    numbers = [str(random.randint(1, 9999)) for _ in range(10)]  
     cases = ["lower", "upper", "capitalize", "random"]
 
     def random_case(name):
         return ''.join(random.choice([ch.lower(), ch.upper()]) for ch in name)
 
-    emails = set()  
-    count = 0  
+    emails = set()
+    count = 0
 
     for pattern in patterns:
         for num in numbers:
@@ -55,10 +54,17 @@ def generate_email_permutations(first_name, last_name, domain, max_combinations=
                     elif last_case == "capitalize":
                         last = last_name.capitalize()
 
-                    random_chars = generate_random_string(random.randint(2, 5))  
+                    random_chars = generate_random_string(random.randint(2, 5))
 
-                    email = pattern.format(first=first, last=last, first0=first[0], last0=last[0])
-                    email = f"{email}{random_chars}{num}@{domain}"
+                    email = pattern.format(
+                        first=first,
+                        last=last,
+                        first0=first[0],
+                        last0=last[0],
+                        random=random_chars,
+                        num=num
+                    )
+                    email = f"{email}@{domain}"
                     emails.add(email)
 
                     count += 1
