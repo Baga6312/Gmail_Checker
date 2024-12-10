@@ -48,6 +48,7 @@ def generate_email_permutations(first_name, last_name, domain, max_combinations=
                         first = first_name.capitalize()
 
                     if last_case == "random":
+
                         last = random_case(last_name)
                     elif last_case == "upper":
                         last = last_name.upper()
