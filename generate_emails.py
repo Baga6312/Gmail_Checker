@@ -16,13 +16,17 @@ def generate_email_permutations(first_name, last_name, domain, max_combinations=
     patterns = [
         "{first}.{last}",             
         "{first}.{last}{num}",        
-        "{first[0]}{last}{num}",     
-        "{first}{last}{num}",        
-        "{last}.{first}{num}",       
+        "{first[0]}{last}",           
+        "{first}_{last}",             
         "{first}_{last}{num}",        
+        "{last}.{first}",             
+        "{first}{last}{num}",         
+        "{last}{first}",              
         "{first}.{last}.{random}",    
-        "{first[0]}_{last}",          
     ]
+
+    sequential_emails = [
+        f"{first_name}.{last_name}{i}@{domain}" for i in range(1, 101) ]  
 
     numbers = [str(random.randint(1, 9999)) for _ in range(10)]  
     cases = ["lower", "upper", "capitalize", "random"]
@@ -30,8 +34,8 @@ def generate_email_permutations(first_name, last_name, domain, max_combinations=
     def random_case(name):
         return ''.join(random.choice([ch.lower(), ch.upper()]) for ch in name)
 
-    emails = set()
-    count = 0
+    emails = set(sequential_emails) 
+    count = len(sequential_emails)  
 
     for pattern in patterns:
         for num in numbers:
@@ -48,7 +52,6 @@ def generate_email_permutations(first_name, last_name, domain, max_combinations=
                         first = first_name.capitalize()
 
                     if last_case == "random":
-
                         last = random_case(last_name)
                     elif last_case == "upper":
                         last = last_name.upper()
